@@ -51,7 +51,12 @@ jobs:
       - name: Install platform
         run: |
           arduino-cli core update-index
-          arduino-cli core install ${{ matrix.config.arduino-platform }}
+          arduino-cli core install ${{ matrix.config.arduino-platform }}    
+          
+      - name: Compile Sketch
+        run: |
+         arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
+         ls -la ../build  
           
  
       
