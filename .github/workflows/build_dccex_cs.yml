@@ -43,7 +43,7 @@ jobs:
           arduino-platform: "arduino:megaavr",
           fqbn: "arduino:megaavr:uno2018"
          }
-      - {
+       - {
           name: "Arduino MegaAVR Nano Every",            
           os: ubuntu-latest,
           arduino-platform: "arduino:megaavr",
