@@ -37,9 +37,9 @@ jobs:
   steps:
       - name: Checkout DCC-EX CS Master
         uses: actions/checkout@v2
-          with:
-            repository: DCC-EX/CommandStation-EX     
-            ref: master
+        with:
+         repository: DCC-EX/CommandStation-EX     
+         ref: master
  
       # We use the arduino/setup-arduino-cli action to install and
       # configure the Arduino CLI on the system.
