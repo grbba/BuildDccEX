@@ -40,6 +40,7 @@ jobs:
         with:
          repository: DCC-EX/CommandStation-EX     
          ref: master
+         path: CommandStation-EX
  
       # We use the arduino/setup-arduino-cli action to install and
       # configure the Arduino CLI on the system.
