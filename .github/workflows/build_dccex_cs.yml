@@ -1,0 +1,60 @@
+name: DCC-EX CS compile
+ 
+# Compile from latest master / latest release
+# should be time base e.g. check once a day and rebuild for the platform
+on: 
+  push:
+    branches: 
+      - main
+      
+ jobs:
+   mcu-matrix:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        # one per MCU platform i.e.Uno / Mega / Nano 
+        - {
+            name: "Arduino AVR Mega",
+            os: ubuntu-latest,
+            arduino-platform: "arduino:avr",
+            fqbn: "arduino:avr:mega"
+          }
+        - {
+            name: "Arduino AVR Uno",            
+            os: ubuntu-latest,
+            arduino-platform: "arduino:avr",
+            fqbn: "arduino:avr:uno"
+          }
+        - {
+            name: "Arduino AVR Nano",            
+            os: ubuntu-latest,
+            arduino-platform: "arduino:avr",
+            fqbn: "arduino:avr:nano"
+          }
+  steps:
+      - name: Checkout DCC-EX CS Master
+        uses: actions/checkout@v2
+          with:
+            repository: DCC-EX/CommandStation-EX     
+            ref: master
+ 
+      # We use the arduino/setup-arduino-cli action to install and
+      # configure the Arduino CLI on the system.
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.1
+ 
+      # We then install the platform, which one will be determined
+      # dynamically by the build matrix.
+      - name: Install platform
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install ${{ matrix.config.arduino-platform }}
+          
+ 
+      
+      
+      
+      
