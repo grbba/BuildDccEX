@@ -59,7 +59,7 @@ jobs:
         run: |
           arduino-cli core update-index
           arduino-cli core install ${{ matrix.config.arduino-platform }}
-          arduino-cli board list
+          arduino-cli board listall
           arduino-cli lib install DIO2
           
       - name: Compile Sketch
