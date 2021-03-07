@@ -6,34 +6,34 @@ on:
   push:
     branches: 
       - main
-      
- jobs:
-   mcu-matrix:
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
+     
+jobs:
+ mcu-matrix:
+  name: ${{ matrix.config.name }}
+   runs-on: ${{ matrix.config.os }}
+   strategy:
+    fail-fast: false
+     matrix:
+      config:
         # one per MCU platform i.e.Uno / Mega / Nano 
-        - {
-            name: "Arduino AVR Mega",
-            os: ubuntu-latest,
-            arduino-platform: "arduino:avr",
-            fqbn: "arduino:avr:mega"
-          }
-        - {
-            name: "Arduino AVR Uno",            
-            os: ubuntu-latest,
-            arduino-platform: "arduino:avr",
-            fqbn: "arduino:avr:uno"
-          }
-        - {
-            name: "Arduino AVR Nano",            
-            os: ubuntu-latest,
-            arduino-platform: "arduino:avr",
-            fqbn: "arduino:avr:nano"
-          }
+       - {
+          name: "Arduino AVR Mega",
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:mega"
+         }
+       - {
+          name: "Arduino AVR Uno",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:uno"
+         }
+       - {
+          name: "Arduino AVR Nano",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:nano"
+         }
   steps:
       - name: Checkout DCC-EX CS Master
         uses: actions/checkout@v2
