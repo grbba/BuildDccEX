@@ -52,7 +52,8 @@ jobs:
       - name: Install platform
         run: |
           arduino-cli core update-index
-          arduino-cli core install ${{ matrix.config.arduino-platform }}    
+          arduino-cli core install ${{ matrix.config.arduino-platform }}
+          arduino-cli lib install DIO2
           
       - name: Compile Sketch
         run: |
