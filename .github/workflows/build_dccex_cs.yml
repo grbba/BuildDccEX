@@ -57,7 +57,7 @@ jobs:
       - name: Compile Sketch
         run: |
          pwd
-         ls -la $HOME/runner/work
+         ls -la $HOME/work
          cd CommandStation-EX
          cp config.example.h config.h
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
