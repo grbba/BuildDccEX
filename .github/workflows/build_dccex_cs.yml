@@ -10,9 +10,9 @@ on:
 jobs:
  mcu-matrix:
   name: ${{ matrix.config.name }}
-   runs-on: ${{ matrix.config.os }}
-   strategy:
-    fail-fast: false
+  runs-on: ${{ matrix.config.os }}
+  strategy:
+   fail-fast: false
      matrix:
       config:
         # one per MCU platform i.e.Uno / Mega / Nano 
