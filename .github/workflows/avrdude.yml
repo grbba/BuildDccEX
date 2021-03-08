@@ -1,0 +1,37 @@
+name: Build Avrdude 
+
+on: 
+  push:
+    branches:
+      - avrdude
+
+jobs:
+  build:
+    strategy: 
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Environment
+      run: echo "Build for: " && echo  ${{ matrix.os }}
+    - name: Requirements
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt-get install build-essential bison subversion zip automake flex pkg-config
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+              echo "$RUNNER_OS not supported"
+              exit 1
+        fi
+      shell: bash
+
+
+    - name: Get Avrdude repo
+      uses: actions/checkout@v2
+      with:
+        repository: arduino/avrdude-build-script
+        ref: 6.3.0-arduino19
+    - name Build Avrdude
+      run: ./package-avrdude.bash
