@@ -1,9 +1,9 @@
 name: Build Avrdude 
 
-on: 
-  push:
-    branches:
-      - avrdude
+on: [push, pull_request]
+#  push:
+#    branches:
+#      - avrdude
 
 jobs:
   build:
