@@ -35,5 +35,6 @@ jobs:
       with:
         repository: arduino/avrdude-build-script
         ref: 6.3.0-arduino19
-    - name Build Avrdude
-      run: ./package-avrdude.bash
+    - name: Build Avrdude
+      run: |
+        ./package-avrdude.bash
