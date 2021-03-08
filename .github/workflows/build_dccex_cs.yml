@@ -20,19 +20,22 @@ jobs:
           name: "Arduino AVR Mega",
           os: ubuntu-latest,
           arduino-platform: "arduino:avr",
-          fqbn: "arduino:avr:mega"
+          fqbn: "arduino:avr:mega",
+          artifact: "ArduinoMega"
          }
        - {
           name: "Arduino AVR Uno",            
           os: ubuntu-latest,
           arduino-platform: "arduino:avr",
-          fqbn: "arduino:avr:uno"
+          fqbn: "arduino:avr:uno",
+          artifact: "ArduinoUno"
          }
        - {
           name: "Arduino AVR Nano",            
           os: ubuntu-latest,
           arduino-platform: "arduino:avr",
-          fqbn: "arduino:avr:nano"
+          fqbn: "arduino:avr:nano",
+          artifact: "ArduinoNano"
          }
 # Board Name            FQBN                     
 # Arduino Nano Every    arduino:megaavr:nona4809 
@@ -41,13 +44,15 @@ jobs:
           name: "Arduino MEGAAVR UNO-WiFi Rev2",            
           os: ubuntu-latest,
           arduino-platform: "arduino:megaavr",
-          fqbn: "arduino:megaavr:uno2018"
+          fqbn: "arduino:megaavr:uno2018",
+          artifact: "ArduinoUnoWifiR2"
          }
        - {
           name: "Arduino MegaAVR Nano Every",            
           os: ubuntu-latest,
           arduino-platform: "arduino:megaavr",
-          fqbn: "arduino:megaavr:nona4809"
+          fqbn: "arduino:megaavr:nona4809",
+          artifact: "ArduinoNanoEvery"
          }
   steps:
       - name: Checkout DCC-EX CS Master
@@ -78,7 +83,15 @@ jobs:
          cp config.example.h config.h
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
-          
+         
+      - name: Upload sketch artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.config.artifact }}
+          path: |
+            /home/runner/work/BuildDccEx/build/*.hex
+            /home/runner/work/BuildDccEx/build/*.elf
+            /home/runner/work/BuildDccEx/build/*.bin
  
       
       
