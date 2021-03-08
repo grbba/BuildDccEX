@@ -2,10 +2,13 @@ name: DCC-EX CS compile
  
 # Compile from latest master / latest release
 # should be time base e.g. check once a day and rebuild for the platform
-on: 
-  push:
-    branches: 
-      - main
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string rune every day at 2 am
+    - cron:  '0 2 * * *'
+  # push:
+  #  branches: 
+  #    - main
      
 jobs:
  mcu-matrix:
