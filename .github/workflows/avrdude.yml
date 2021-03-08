@@ -14,7 +14,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Environment
-      run: echo "Build for: " && echo  ${{ matrix.os }}
+      run: |
+        echo "Build for: "
+        echo ${{ matrix.os }}
     - name: Requirements
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
