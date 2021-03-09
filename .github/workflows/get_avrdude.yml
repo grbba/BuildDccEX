@@ -15,7 +15,7 @@ jobs:
         ref: 6.3.0-arduino19
     - name: Download release artefacts
       run: |
-        curl https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-x86_64-pc-linux-gnu.tar.bz2
+        curl -L https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-x86_64-pc-linux-gnu.tar.bz2
     - name: See what we have
       run: |
         pwd
