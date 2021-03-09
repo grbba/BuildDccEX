@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: arduino/avrdude-build-script
-        ref: latest
+        ref: 6.3.0-arduino19
     - name: See what we have
       run: |
         pwd
