@@ -42,6 +42,11 @@ jobs:
       matrix:
         board: [Mega, Uno, Nano]
     steps:
+      - name: Get avrdude artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: avrdude
+          path: /home/runner/work/BuildDccEX/avrdude
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         env:
@@ -57,11 +62,6 @@ jobs:
           cd /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
           pwd
           ls -la
-      - name: Get avrdude artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: avrdude
-          path: /home/runner/work/BuildDccEX/avrdude
       - name: Package commandstation & avrdude
         uses: actions/upload-artifact@v2
         with:
