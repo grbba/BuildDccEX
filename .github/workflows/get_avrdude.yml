@@ -23,17 +23,23 @@ jobs:
       run: |
         pwd
         ls -la
-    - name: Download artifact
-      uses: dawidd6/action-download-artifact@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        workflow: build_dccex_cs.yml
-        name: ArduinoMega
-        path: /home/runner/work/BuildDccEX/bin
+  package-cs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board: [Mega, Uno, Nano]
+    steps:
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          workflow: build_dccex_cs.yml
+          name: Arduino${{matrix.board}}
+          path: /home/runner/work/BuildDccEX/bin
         # Optional, defaults to current repo
-        repo: ${{github.repository}}
-    - name: See what we have 2
-      run: |
-        pwd
-        ls -la /home/runner/work/BuildDccEX/bin
+          repo: ${{github.repository}}
+      - name: See what we have 2
+        run: |
+          pwd
+          ls -la /home/runner/work/BuildDccEX/bin
