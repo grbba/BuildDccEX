@@ -41,5 +41,6 @@ jobs:
           repo: ${{github.repository}}
       - name: See what we have 2
         run: |
-          cd /home/runner/work/BuildDccEX//Arduino${{matrix.board}}
+          cd /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
+          pwd
           ls -la
