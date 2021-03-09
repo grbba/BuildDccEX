@@ -5,7 +5,7 @@ on: [push]
 
 
 jobs:
-  build:
+  prepare-avrdude:
     runs-on: ubuntu-latest
     steps:
     - name: Download avrdude release artefacts
@@ -38,6 +38,7 @@ jobs:
         path: |
             avrdude/*
   package-cs:
+    needs: prepare-avrdude
     runs-on: ubuntu-latest
     strategy:
       matrix:
