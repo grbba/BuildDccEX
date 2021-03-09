@@ -30,7 +30,12 @@ jobs:
         mv avrdude-macos avrdude
         mv avrdude-win avrdude
         ls -la avrdude
-
+    - name: Upload avrdude artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: avrdude
+        path: |
+            avrdude/*
   package-cs:
     runs-on: ubuntu-latest
     strategy:
