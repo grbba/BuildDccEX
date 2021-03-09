@@ -23,6 +23,14 @@ jobs:
       run: |
         pwd
         ls -la
+    - name: Repackage avrdude
+      run: |
+        mkdir avrdude
+        mv avrdude-linux avrdude
+        mv avrdude-macos avrdude
+        mv avrdude-win avrdude
+        ls -la avrdude
+
   package-cs:
     runs-on: ubuntu-latest
     strategy:
