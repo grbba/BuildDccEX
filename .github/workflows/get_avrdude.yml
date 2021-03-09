@@ -11,11 +11,14 @@ jobs:
     - name: Download avrdude release artefacts
       run: |
         curl -L https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-x86_64-pc-linux-gnu.tar.bz2 -o avrdude-linux-6.3.0.tar.bz2
+        mkdir avrdude-linux
         tar -xf avrdude-linux-6.3.0.tar.bz2 -C avrdude-linux
         curl -L https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-x86_64-apple-darwin12.tar.bz2 -o avrdude-macos-6.3.0.tar.bz2
+        mkdir avrdude-macos
         tar -xf avrdude-macos-6.3.0.tar.bz2 -C avrdude-macos
         curl -L https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-i686-w64-mingw32.zip -o  avrdude-win-6.3.0.zip
-        unzip avrdude-win-6.3.0.zip
+        mkdir avrdude-win
+        unzip avrdude-win-6.3.0.zip -d avrdude-win
     - name: See what we have
       run: |
         pwd
