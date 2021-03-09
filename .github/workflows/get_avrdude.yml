@@ -25,6 +25,7 @@ jobs:
         ls -la
     - name: Repackage avrdude
       run: |
+        pwd
         mkdir avrdude
         mv avrdude-linux avrdude
         mv avrdude-macos avrdude
@@ -42,11 +43,6 @@ jobs:
       matrix:
         board: [Mega, Uno, Nano]
     steps:
-      - name: Get avrdude artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: avrdude
-          path: /home/runner/work/BuildDccEX/avrdude
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         env:
@@ -57,11 +53,16 @@ jobs:
           path: /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
         # Optional, defaults to current repo
           repo: ${{github.repository}}
+      - name: Get avrdude artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: avrdude
+          path: /home/runner/work/BuildDccEX/avrdude    
       - name: See what we have 2
         run: |
-          cd /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
-          pwd
-          ls -la
+          ls -la /home/runner/work/BuildDccEX/avrdude
+          ls -la /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
+          
       - name: Package commandstation & avrdude
         uses: actions/upload-artifact@v2
         with:
