@@ -54,6 +54,20 @@ jobs:
           repo: ${{github.repository}}
       - name: See what we have 2
         run: |
+          echo ${{github.repository}}
           cd /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
           pwd
           ls -la
+      - name: Get avrdude artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: avrdude
+          path: /home/runner/work/BuildDccEX/avrdude
+      - name: Package commandstation & avrdude
+        uses: actions/upload-artifact@v2
+        with:
+          name: Avr_Arduino${{matrix.board}}
+          path: |
+              avrdude/*
+              Arduino${{matrix.board}}/*
+      
