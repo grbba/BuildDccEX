@@ -29,7 +29,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         workflow: build_dccex_cs.yml
-        name: sketchbin
+        name: ArduinoMega
         path: /home/runner/work/BuildDccEX/bin
         # Optional, defaults to current repo
         repo: ${{github.repository}}
