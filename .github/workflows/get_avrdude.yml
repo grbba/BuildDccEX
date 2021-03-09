@@ -1,1 +1,19 @@
 
+name: Build Avrdude 
+
+on: [push]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download avrdude release
+      uses: actions/checkout@v2
+      with:
+        repository: arduino/avrdude-build-script
+        ref: latest
+    - name: See what we have
+      run: |
+        pwd
+        ls -la
