@@ -19,7 +19,21 @@ jobs:
         curl -L https://github.com/arduino/avrdude-build-script/releases/download/6.3.0-arduino19/avrdude-6.3.0-arduino19-i686-w64-mingw32.zip -o  avrdude-win-6.3.0.zip
         mkdir avrdude-win
         unzip avrdude-win-6.3.0.zip -d avrdude-win
-    - name: See what we have
+    - name: See what we have 1
       run: |
         pwd
         ls -la
+    - name: Download artifact
+      uses: dawidd6/action-download-artifact@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          workflow: build_dccex_cs.yml
+          name: sketchbin
+          path: /home/runner/work/BuildDccEX/bin
+          # Optional, defaults to current repo
+          repo: ${{github.repository}}
+    - name: See what we have 2
+      run: |
+        pwd
+        ls -la /home/runner/work/BuildDccEX/bin
