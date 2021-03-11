@@ -30,7 +30,7 @@ jobs:
       - name: Package release artifact
         run: |
           cd /home/runner
-          zip --junk-paths sketchbin /home/runner/work/BuildDccEX/Arduino${{matrix.board}}/*
+          zip --junk-paths Arduino${{matrix.board}} /home/runner/work/BuildDccEX/Arduino${{matrix.board}}/*
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
