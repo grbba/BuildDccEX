@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           workflow: get_avrdude.yml
-          name: Avr_Arduino${{matrix.board}}.zip
+          name: Avr_Arduino${{matrix.board}}
           path: /home/runner/work/BuildDccEX/Arduino${{matrix.board}}
         # Optional, defaults to current repo
           repo: ${{github.repository}} 
