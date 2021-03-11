@@ -31,7 +31,7 @@ jobs:
         run: |
           cd /home/runner/work/BuildDccEX
           ls -la Arduino${{matrix.board}}
-          zip --junk-paths Arduino${{matrix.board}} Arduino${{matrix.board}}/*
+          zip -r Arduino${{matrix.board}} Arduino${{matrix.board}}/*
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
