@@ -29,8 +29,9 @@ jobs:
           ls -la /home/runner/work/BuildDccEX
       - name: Package release artifact
         run: |
-          cd /home/runner
-          zip --junk-paths Arduino${{matrix.board}} /home/runner/work/BuildDccEX/Arduino${{matrix.board}}/*
+          cd /home/runner/work/BuildDccEX
+          ls -la Arduino${{matrix.board}}
+          zip --junk-paths Arduino${{matrix.board}} Arduino${{matrix.board}}/*
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
