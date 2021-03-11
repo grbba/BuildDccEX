@@ -1,8 +1,14 @@
 
 name: Build Avrdude 
 
-on: [push]
-
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string rune every day at 2 am
+    - cron:  '0 2 * * *'
+  # push:
+  #  branches: 
+  #    - main
+       
 
 jobs:
   prepare-avrdude:
