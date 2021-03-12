@@ -3,12 +3,12 @@ name: DCC-EX CS compile
 # Compile from latest master / latest release
 # should be time base e.g. check once a day and rebuild for the platform
 on:
-  schedule:
+  # schedule:
     # * is a special character in YAML so you have to quote this string rune every day at 2 am
-    - cron:  '0 2 * * *'
-  # push:
-  #  branches: 
-  #    - main
+  #  - cron:  '0 2 * * *'
+  push:
+    branches: 
+      - main
      
 jobs:
  mcu-matrix:
@@ -78,12 +78,17 @@ jobs:
           arduino-cli core install ${{ matrix.config.arduino-platform }}
           arduino-cli board listall
           arduino-cli lib install DIO2
-          
+      - name: Patching Sketch
+        run: |
+          rm CommandStation-EX/CommandStation-EX.ino
+          rm CommandStation-EX/config.example.h
+          cp patch/CommandStation-EX.ino CommandStation-EX
+          cp patch/config.h CommandStation-EX
       - name: Compile Sketch
         run: |
          pwd
          cd CommandStation-EX
-         cp config.example.h config.h
+      # cp config.example.h config.h
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
          
