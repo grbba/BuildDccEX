@@ -38,9 +38,10 @@ jobs:
         ls -la avrdude-macos/avrdude
         ls -la avrdude-win/avrdude
 
-        # mv avrdude-linux/avrdude/* avrdude/linux
-        # mv avrdude-macos/avrdude/* avrdude/macos
-        # mv avrdude-win avrdude/* avrdude/win
+        mv avrdude-linux/avrdude/* avrdude/linux
+        mv avrdude-macos/avrdude/* avrdude/macos
+        mv avrdude-win/avrdude/* avrdude/win
+        
         ls -la avrdude
     - name: Upload avrdude artifact
       uses: actions/upload-artifact@v2
