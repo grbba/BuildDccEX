@@ -80,6 +80,7 @@ jobs:
           arduino-cli lib install DIO2
       - name: Patching Sketch
         run: |
+          ls -la
           rm CommandStation-EX/CommandStation-EX.ino
           rm CommandStation-EX/config.example.h
           cp patch/CommandStation-EX.ino CommandStation-EX
