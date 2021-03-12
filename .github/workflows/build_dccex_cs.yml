@@ -64,6 +64,9 @@ jobs:
          repository: DCC-EX/CommandStation-EX     
          ref: master
          path: CommandStation-EX
+         
+      - name: Checkout DCC-EX CS Patch
+        uses: actions/checkout@v2
  
       # We use the arduino/setup-arduino-cli action to install and
       # configure the Arduino CLI on the system.
