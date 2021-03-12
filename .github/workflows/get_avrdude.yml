@@ -32,10 +32,10 @@ jobs:
     - name: Repackage avrdude
       run: |
         pwd
-        mkdir avrdude
-        mv avrdude-linux avrdude
-        mv avrdude-macos avrdude
-        mv avrdude-win avrdude
+        mkdir avrdude && mkdir avrdude/win && mkdir avrdude/linux && mkdir avrdude/macos
+        mv avrdude-linux/avrdude/* avrdude/linux
+        mv avrdude-macos/avrdude/* avrdude/macos
+        mv avrdude-win avrdude/* avrdude/win
         ls -la avrdude
     - name: Upload avrdude artifact
       uses: actions/upload-artifact@v2
