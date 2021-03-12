@@ -3,7 +3,7 @@ name: Release DccEX Avrdude
 on:
   push:
     branches: 
-      - main
+      - release
     tags: 
       - 'v*'
 

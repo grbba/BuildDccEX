@@ -2,12 +2,12 @@
 name: Build Avrdude 
 
 on:
-  schedule:
+  #schedule:
     # * is a special character in YAML so you have to quote this string rune every day at 2 am
-    - cron:  '0 2 * * *'
-  # push:
-  #  branches: 
-  #    - main
+    #- cron:  '0 2 * * *'
+  push:
+    branches: 
+      - main
        
 
 jobs:
