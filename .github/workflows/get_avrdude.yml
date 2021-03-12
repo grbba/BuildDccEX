@@ -33,6 +33,7 @@ jobs:
       run: |
         pwd
         mkdir avrdude && mkdir avrdude/win && mkdir avrdude/linux && mkdir avrdude/macos
+        ls -la avrdude
         mv avrdude-linux/avrdude/* avrdude/linux
         mv avrdude-macos/avrdude/* avrdude/macos
         mv avrdude-win avrdude/* avrdude/win
