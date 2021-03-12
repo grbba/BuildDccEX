@@ -58,13 +58,17 @@ jobs:
           artifact: "ArduinoNanoEvery"
          }
   steps:
+      - name: Checkout DCC-EX CS Patch
+        uses: actions/checkout@v2
+        with: 
+          path: cs-patch
       - name: Checkout DCC-EX CS Master
         uses: actions/checkout@v2
         with:
          repository: DCC-EX/CommandStation-EX     
          ref: master
          path: CommandStation-EX
-         
+
       - name: Checkout DCC-EX CS Patch
         uses: actions/checkout@v2
  
@@ -86,8 +90,8 @@ jobs:
           ls -la
           rm CommandStation-EX/CommandStation-EX.ino
           rm CommandStation-EX/config.example.h
-          cp patch/CommandStation-EX.ino CommandStation-EX
-          cp patch/config.h CommandStation-EX
+          cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
+          cp cs-patch/patch/config.h CommandStation-EX
       - name: Compile Sketch
         run: |
          pwd
