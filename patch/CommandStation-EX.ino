@@ -46,10 +46,20 @@
 
 #include "DCCEX.h"
 
+
 // Create a serial command parser for the USB connection, 
 // This supports JMRI or manual diagnostics and commands
 // to be issued from the USB serial console.
 DCCEXParser serialParser;
+
+// a singleton session object containing/managing all the config info is reated and used 
+// Controls the runstate of the commandstation
+// inital setup is minimal and limited to setup the serial com; only
+// way to bootstrap the system and get an inital path into the CS
+// in the setup just set the filter function
+// This will allow to communicate with the commandline interface for setup : recieving
+// layout information etc.
+
 
 void setup()
 {
@@ -58,48 +68,25 @@ void setup()
   // Responsibility 1: Start the usb connection for diagnostics
   // This is normally Serial but uses SerialUSB on a SAMD processor
   Serial.begin(115200);
-   
-  CONDITIONAL_LCD_START {
-    // This block is still executed for DIAGS if LCD not in use 
-    LCD(0,F("DCC++ EX  v%S - p%S"),F(VERSION),F(PATCHVERSION));
-    LCD(1,F("Starting")); 
-    }   
+  CONDITIONAL_LCD_START
+  {
+      // This block is still executed for DIAGS if LCD not in use
+      LCD(0, F("DCC++ EX v%S"), F(VERSION));
+      LCD(1, F("Starting"));
+  }
 
-//  Start the WiFi interface on a MEGA, Uno cannot currently handle WiFi
+  Session::get()->setup();
 
-#if WIFI_ON
-  WifiInterface::setup(WIFI_SERIAL_LINK_SPEED, F(WIFI_SSID), F(WIFI_PASSWORD), F(WIFI_HOSTNAME), IP_PORT, WIFI_CHANNEL);
-#endif // WIFI_ON
-
-#if ETHERNET_ON
-  EthernetInterface::setup();
-#endif // ETHERNET_ON
-
-  // Responsibility 3: Start the DCC engine.
-  // Note: this provides DCC with two motor drivers, main and prog, which handle the motor shield(s)
-  // Standard supported devices have pre-configured macros but custome hardware installations require
-  //  detailed pin mappings and may also require modified subclasses of the MotorDriver to implement specialist logic.
-
-  // STANDARD_MOTOR_SHIELD, POLOLU_MOTOR_SHIELD, FIREBOX_MK1, FIREBOX_MK1S are pre defined in MotorShields.h
-
- 
-  DCC::begin(MOTOR_SHIELD_TYPE); 
-         
-  #if defined(RMFT_ACTIVE) 
-      RMFT::begin();
-  #endif
-
-  #if __has_include ( "mySetup.h")
-        #define SETUP(cmd) serialParser.parse(F(cmd))  
-        #include "mySetup.h"
-        #undef SETUP
-       #endif
-
-  LCD(1,F("Ready")); 
 }
 
 void loop()
 {
+
+  if(!Session::get()->isConfigured()) { // if not CONFIGURED go to the config function as there
+                                        // maybe some config cmds waiting to be executed
+    Session::get()->config();           // run what has been in setup() before here ... 
+  } 
+  
   // The main sketch has responsibilities during loop()
 
   // Responsibility 1: Handle DCC background processes
@@ -121,7 +108,11 @@ void loop()
   RMFT::loop();
 #endif
 
-  LCDDisplay::loop();  // ignored if LCD not in use 
+  #if defined(LCN_SERIAL) 
+      LCN::loop();
+  #endif
+
+  // LCDDisplay::loop();  // ignored if LCD not in use 
   
   // Report any decrease in memory (will automatically trigger on first call)
   static int ramLowWatermark = __INT_MAX__; // replaced on first loop 
@@ -130,6 +121,6 @@ void loop()
   if (freeNow < ramLowWatermark)
   {
     ramLowWatermark = freeNow;
-    LCD(2,F("Free RAM=%5db"), ramLowWatermark);
+    // LCD(2,F("Free RAM=%5db"), ramLowWatermark);
   }
 }

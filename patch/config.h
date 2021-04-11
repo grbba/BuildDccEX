@@ -80,7 +80,7 @@ The configuration file for DCC-EX Command Station
 // ENABLE_ETHERNET: Set to true if you have an Arduino Ethernet card (wired). This
 // is not for Wifi. You will then need the Arduino Ethernet library as well
 //
-//#define ENABLE_ETHERNET true
+#define ENABLE_ETHERNET true
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -109,4 +109,4 @@ The configuration file for DCC-EX Command Station
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-#define PATCHVERSION "0.0.1"
+#define PATCHVERSION "0.1.12"
