@@ -3,9 +3,10 @@ name: Release DccEX Avrdude
 on:
   push:
     branches: 
-      - release
-    tags: 
-      - 'v*'
+       - main
+    #  - release
+    #tags: 
+    #  - 'v*'
 
 jobs:
   make_release:
