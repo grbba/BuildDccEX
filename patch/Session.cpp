@@ -136,6 +136,7 @@ void csSessionFilter(Print *stream, byte &opcode, byte &paramCount, int p[])
 
 void Session::setup()
 {
+    DIAG(F("Dcccli Session patch v0.1.12"))
     // filter for intercepting cli commands ('c' + 'li' in p[0])
     DCCEXParser::setFilter(csSessionFilter);
     // intercept the '+' and check if its for me
