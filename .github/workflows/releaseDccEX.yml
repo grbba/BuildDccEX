@@ -9,8 +9,10 @@ on:
     #  - 'v*'
 
 jobs:
-  make_release:
+  create_release:
     runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Create Release
         id: create_release
@@ -22,8 +24,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-  upload_release:
-    needs: make_release
+  release_assets:
+    needs: create_release
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -53,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: /home/runner/work/BuildDccEX/Arduino${{matrix.board}}.zip
           asset_name: Arduino${{matrix.board}}.zip
           asset_content_type: application/zip
