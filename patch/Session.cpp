@@ -58,7 +58,11 @@ void cliFilter(const byte *cmd)
     // check if first token is "cli"
     if (strcmp(pch, "cli") != 0 ) {
         // its not a cli command so send it to the ATCommand handler
+#if WIFI_ON   // only chain if the WIFI interface is enabled
         WifiInterface::ATCommand(cmd);
+#else
+        DIAG(F("Wifi not enabled; can't process command"));
+#endif
         return; // and we are done here
     }
 
