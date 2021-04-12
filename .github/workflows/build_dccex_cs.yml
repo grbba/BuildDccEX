@@ -96,6 +96,7 @@ jobs:
           rm CommandStation-EX/DIAG.h
           rm CommandStation-EX/StringFormatter.h
           rm CommandStation-EX/StringFormatter.cpp
+          rm CommandStation-EX/EthernetInterface.h
           cp cs-patch/patch/DCCEX.h CommandStation-EX
           cp cs-patch/patch/DCCEXParser.cpp CommandStation-EX
           cp cs-patch/patch/DCCWaveform.cpp CommandStation-EX
@@ -110,6 +111,7 @@ jobs:
           cp cs-patch/patch/DIAG.cpp CommandStation-EX
           cp cs-patch/patch/StringFormatter.h CommandStation-EX
           cp cs-patch/patch/StringFormatter.cpp CommandStation-EX
+          cp cs-patch/patch/EthernetInterface.h CommandStation-EX
 
       - name: Compile Sketch
         run: |
