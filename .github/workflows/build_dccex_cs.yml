@@ -82,6 +82,7 @@ jobs:
           arduino-cli core install ${{ matrix.config.arduino-platform }}
           arduino-cli board listall
           arduino-cli lib install DIO2
+          arduino-cli lib install Ethernet
       - name: Patching Sketch
         run: |
           ls -la
