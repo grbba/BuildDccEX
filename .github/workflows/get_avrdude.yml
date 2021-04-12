@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        board: [Mega, Uno, Nano]
+        board: [Mega, Uno, Nano, NanoEvery, UnoWifiR2]
     steps:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
