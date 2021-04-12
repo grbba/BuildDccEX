@@ -94,6 +94,7 @@ jobs:
           rm CommandStation-EX/DCCWaveform.h
           rm CommandStation-EX/defines.h
           rm CommandStation-EX/DIAG.h
+          rm CommandStation-EX/StringFormatter.h
           cp cs-patch/patch/DCCEX.h CommandStation-EX
           cp cs-patch/patch/DCCEXParser.cpp CommandStation-EX
           cp cs-patch/patch/DCCWaveform.cpp CommandStation-EX
@@ -106,6 +107,7 @@ jobs:
           cp cs-patch/patch/defines.h CommandStation-EX
           cp cs-patch/patch/DIAG.h CommandStation-EX
           cp cs-patch/patch/DIAG.cpp CommandStation-EX
+          cp cs-patch/patch/StringFormatter.h CommandStation-EX
 
       - name: Compile Sketch
         run: |
