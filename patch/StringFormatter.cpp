@@ -22,6 +22,7 @@
 #include "EthernetClient.h"
 #include <stdarg.h>
 #include "DIAG.h"
+#include "defines.h"
 
 #if defined(ARDUINO_ARCH_SAMD)
 // Some processors use a gcc compiler that renames va_list!!!
@@ -39,6 +40,7 @@ bool Diag::WIFI = false;
 bool Diag::WITHROTTLE = false;
 bool Diag::ETHERNET = false;
 bool Diag::LCN = false;
+
 // > grbba
 bool Diag::LATCH = false;
 // grbba >
@@ -54,8 +56,8 @@ bool Diag::LATCH = false;
 
 void StringFormatter::diag(const FSH *input...)
 {
+#if ETHERNET_ON == true || WIFI_ON == true
 
-  //grbba
   auto t = diagSerial;
   if (Diag::LATCH)
   {
@@ -63,6 +65,7 @@ void StringFormatter::diag(const FSH *input...)
     {
     case _ETHERNET:
     {
+#if ETHERNET_ON == true
       // get the raw socket and use it to send the diag info
       auto i = EthernetInterface::get();
       auto s = i->getClient(Latch::id); // socket on which the Latch cmd has been recieved
@@ -71,11 +74,13 @@ void StringFormatter::diag(const FSH *input...)
       { // check if the socket is connected
         diagSerial = s;
       }
+#endif
       break;
+
     }
     case _WIFI:
     {
-      DIAG(F("Latch on Wifi is ignored for now ..."));
+      DIAG(F("Latch on Wifi is not possible for now ..."));
       // set the ESP to the right socket before sending
       // StringFormatter::send(wifiStream, F("AT+CIPSEND=%d,%d\r\n"),  Latch::id, currentReplySize);
       // now send all down the right wire ...
@@ -85,6 +90,7 @@ void StringFormatter::diag(const FSH *input...)
     }
     }
   }
+#endif
   // grbba
 
   if (!diagSerial)
@@ -96,10 +102,12 @@ void StringFormatter::diag(const FSH *input...)
   diagSerial->print(F(" *>"));
 
   // grbba - reset the diagSerial every time
+#if ETHERNET_ON == true || WIFI_ON == true
   if (Diag::LATCH)
   {
     diagSerial = t;
   }
+#endif
   // grbba
 }
 
