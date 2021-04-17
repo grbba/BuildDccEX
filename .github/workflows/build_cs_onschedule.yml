@@ -1,0 +1,126 @@
+name: DCC-EX CS compile
+ 
+# Compile from latest master / latest release
+# should be time base e.g. check once a day and rebuild for the platform
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string rune every day at 2 am
+    - cron:  '0 2 * * *'
+     
+jobs:
+ mcu-matrix:
+  name: ${{ matrix.config.name }}
+  runs-on: ${{ matrix.config.os }}
+  strategy:
+   fail-fast: false
+   # one per MCU platform i.e.Uno / Mega / Nano 
+   matrix:
+    config:
+       - {
+          name: "Arduino AVR Mega",
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:mega",
+          artifact: "ArduinoMega"
+         }
+       - {
+          name: "Arduino AVR Uno",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:uno",
+          artifact: "ArduinoUno"
+         }
+       - {
+          name: "Arduino AVR Nano",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:avr",
+          fqbn: "arduino:avr:nano",
+          artifact: "ArduinoNano"
+         }
+# Board Name            FQBN                     
+# Arduino Nano Every    arduino:megaavr:nona4809 
+# Arduino Uno WiFi Rev2 arduino:megaavr:uno2018  
+       - {
+          name: "Arduino MEGAAVR UNO-WiFi Rev2",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:megaavr",
+          fqbn: "arduino:megaavr:uno2018",
+          artifact: "ArduinoUnoWifiR2"
+         }
+       - {
+          name: "Arduino MegaAVR Nano Every",            
+          os: ubuntu-latest,
+          arduino-platform: "arduino:megaavr",
+          fqbn: "arduino:megaavr:nona4809",
+          artifact: "ArduinoNanoEvery"
+         }
+  steps:
+      - name: Checkout DCC-EX CS Patch
+        uses: actions/checkout@v2
+        with: 
+          path: cs-patch
+      - name: Checkout DCC-EX CS Master
+        uses: actions/checkout@v2
+        with:
+         repository: DCC-EX/CommandStation-EX     
+         ref: master
+         path: CommandStation-EX
+
+      # We use the arduino/setup-arduino-cli action to install and
+      # configure the Arduino CLI on the system.
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1.1.1
+ 
+      # We then install the platform, which one will be determined
+      # dynamically by the build matrix.
+      - name: Install platform
+        run: |
+          arduino-cli core update-index
+          arduino-cli core install ${{ matrix.config.arduino-platform }}
+          arduino-cli board listall
+          arduino-cli lib install DIO2
+          arduino-cli lib install Ethernet
+      - name: Patching Sketch
+        run: |
+          ls -la
+      # replace commandstation init
+          rm CommandStation-EX/CommandStation-EX.ino
+          cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
+      # replace architecture / wifi / eth setup definitions
+          rm CommandStation-EX/defines.h
+          cp cs-patch/patch/defines.h CommandStation-EX
+      # setup the config with ETH & WiFi enabled 
+          rm CommandStation-EX/config.example.h
+          cp cs-patch/patch/config.h CommandStation-EX
+      # copy new files
+          cp cs-patch/patch/Queue.h CommandStation-EX 
+          cp cs-patch/patch/Session.cpp CommandStation-EX
+          cp cs-patch/patch/Session.h CommandStation-EX
+          cp cs-patch/patch/DIAG.cpp CommandStation-EX
+      # run the sed script patching the remaining files   
+          cp cs-patch/patch/csexpatch.sh CommandStation-EX
+          cd CommandStation-EX
+          chmod +x csexpatch.sh
+          ./csexpatch.sh
+
+      - name: Compile Sketch
+        run: |
+         pwd
+      # cd not needed anymore as we are in the right folder from the previous step  
+      # cd CommandStation-EX
+         arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
+         ls -la /home/runner/work/BuildDccEx/build 
+         
+      - name: Upload sketch artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.config.artifact }}
+          path: |
+            /home/runner/work/BuildDccEx/build/*.hex
+            /home/runner/work/BuildDccEx/build/*.elf
+            /home/runner/work/BuildDccEx/build/*.bin
+ 
+      
+      
+      
+      
