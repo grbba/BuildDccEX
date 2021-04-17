@@ -106,8 +106,8 @@ jobs:
       - name: Compile Sketch
         run: |
          pwd
-      # cd not needed anymore as we are in the right folder from the previous step  
-      # cd CommandStation-EX
+         # cd not needed anymore as we are in the right folder from the previous step  
+         # cd CommandStation-EX
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
          
