@@ -1,35 +1,6 @@
 /*
  * Queue.h
  * 
- * By Steven de Salas
- * 
- * Defines a templated (generic) class for a queue of things.
- * Used for Arduino projects, just #include "Queue.h" and add this file via the IDE.
- * 
- * Examples:
- * 
- * Queue<char> queue(10); // Max 10 chars in this queue
- * queue.push('H');
- * queue.push('e');
- * queue.count(); // 2
- * queue.push('l');
- * queue.push('l');
- * queue.count(); // 4
- * Serial.print(queue.pop()); // H
- * Serial.print(queue.pop()); // e
- * queue.count(); // 2
- * queue.push('o');
- * queue.count(); // 3
- * Serial.print(queue.pop()); // l
- * Serial.print(queue.pop()); // l
- * Serial.print(queue.pop()); // o
- * 
- * struct Point { int x; int y; }
- * Queue<Point> points(5);
- * points.push(Point{2,4});
- * points.push(Point{5,0});
- * points.count(); // 2
- * 
  */
 
 #ifndef ARDUINO_QUEUE_H
