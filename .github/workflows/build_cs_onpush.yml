@@ -1,4 +1,4 @@
-name: DCC-EX CS compile
+name: DCC-EX CS compile (on push)
  
 # Compile from latest master / latest release
 # should be time base e.g. check once a day and rebuild for the platform
