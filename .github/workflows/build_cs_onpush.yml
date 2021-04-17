@@ -83,31 +83,23 @@ jobs:
       - name: Patching Sketch
         run: |
           ls -la
-          # replace commandstation init
           rm CommandStation-EX/CommandStation-EX.ino
           cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
-          # replace architecture / wifi / eth setup definitions
           rm CommandStation-EX/defines.h
           cp cs-patch/patch/defines.h CommandStation-EX
-          # setup the config with ETH & WiFi enabled 
           rm CommandStation-EX/config.example.h
           cp cs-patch/patch/config.h CommandStation-EX
-          # copy new files
           cp cs-patch/patch/Queue.h CommandStation-EX 
           cp cs-patch/patch/Session.cpp CommandStation-EX
           cp cs-patch/patch/Session.h CommandStation-EX
-          cp cs-patch/patch/DIAG.cpp CommandStation-EX
-          # run the sed script patching the remaining files   
+          cp cs-patch/patch/DIAG.cpp CommandStation-EX  
           cp cs-patch/patch/csexpatch.sh CommandStation-EX
           cd CommandStation-EX
           chmod +x csexpatch.sh
           ./csexpatch.sh
-
       - name: Compile Sketch
         run: |
-         pwd
-         # cd not needed anymore as we are in the right folder from the previous step  
-         # cd CommandStation-EX
+         pwd 
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
          
