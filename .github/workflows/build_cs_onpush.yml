@@ -99,7 +99,8 @@ jobs:
           ./csexpatch.sh
       - name: Compile Sketch
         run: |
-         pwd 
+         pwd
+         cd CommandStation-EX
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
          
