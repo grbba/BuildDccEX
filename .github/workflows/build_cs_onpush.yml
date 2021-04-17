@@ -83,7 +83,7 @@ jobs:
       - name: Patching Sketch
         run: |
           ls -la
-      # replace commandstation init
+# replace commandstation init
           rm CommandStation-EX/CommandStation-EX.ino
           cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
       # replace architecture / wifi / eth setup definitions
