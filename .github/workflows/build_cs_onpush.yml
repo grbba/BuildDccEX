@@ -3,12 +3,9 @@ name: DCC-EX CS compile
 # Compile from latest master / latest release
 # should be time base e.g. check once a day and rebuild for the platform
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string rune every day at 2 am
-    - cron:  '0 2 * * *'
-  # push:
-  #   branches: 
-  #    - main
+  push:
+    branches: 
+    - main
      
 jobs:
  mcu-matrix:
@@ -86,37 +83,31 @@ jobs:
       - name: Patching Sketch
         run: |
           ls -la
+      # replace commandstation init
           rm CommandStation-EX/CommandStation-EX.ino
-          rm CommandStation-EX/config.example.h
-          rm CommandStation-EX/DCCEX.h
-          rm CommandStation-EX/DCCEXParser.cpp
-          rm CommandStation-EX/DCCWaveform.cpp
-          rm CommandStation-EX/DCCWaveform.h
+          cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
+      # replace architecture / wifi / eth setup definitions
           rm CommandStation-EX/defines.h
-          rm CommandStation-EX/DIAG.h
-          rm CommandStation-EX/StringFormatter.h
-          rm CommandStation-EX/StringFormatter.cpp
-          rm CommandStation-EX/EthernetInterface.h
-          cp cs-patch/patch/DCCEX.h CommandStation-EX
-          cp cs-patch/patch/DCCEXParser.cpp CommandStation-EX
-          cp cs-patch/patch/DCCWaveform.cpp CommandStation-EX
-          cp cs-patch/patch/DCCWaveform.h CommandStation-EX
+          cp cs-patch/patch/defines.h CommandStation-EX
+      # setup the config with ETH & WiFi enabled 
+          rm CommandStation-EX/config.example.h
+          cp cs-patch/patch/config.h CommandStation-EX
+      # copy new files
           cp cs-patch/patch/Queue.h CommandStation-EX 
           cp cs-patch/patch/Session.cpp CommandStation-EX
           cp cs-patch/patch/Session.h CommandStation-EX
-          cp cs-patch/patch/CommandStation-EX.ino CommandStation-EX
-          cp cs-patch/patch/config.h CommandStation-EX
-          cp cs-patch/patch/defines.h CommandStation-EX
-          cp cs-patch/patch/DIAG.h CommandStation-EX
           cp cs-patch/patch/DIAG.cpp CommandStation-EX
-          cp cs-patch/patch/StringFormatter.h CommandStation-EX
-          cp cs-patch/patch/StringFormatter.cpp CommandStation-EX
-          cp cs-patch/patch/EthernetInterface.h CommandStation-EX
+      # run the sed script patching the remaining files   
+          cp cs-patch/patch/csexpatch.sh CommandStation-EX
+          cd CommandStation-EX
+          chmod +x csexpatch.sh
+          ./csexpatch.sh
 
       - name: Compile Sketch
         run: |
          pwd
-         cd CommandStation-EX
+      # cd not needed anymore as we are in the right folder from the previous step  
+      # cd CommandStation-EX
          arduino-cli compile --fqbn ${{ matrix.config.fqbn }} --build-path /home/runner/work/BuildDccEx/build  ./CommandStation-EX.ino
          ls -la /home/runner/work/BuildDccEx/build 
          
